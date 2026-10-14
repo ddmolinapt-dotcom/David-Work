@@ -1,0 +1,1044 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Academia CTCV</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: página em porcelana fria; um só elemento forte (a matriz de azulejos trilho × nível); os códigos de curso em mono são a linguagem própria do site. */
+:root{
+  /* CORES PROVISÓRIAS: trocar --brand, --band e --band-fg pelas cores oficiais do CTCV */
+  --brand:#1E3F8F; --brand-ink:#FFFFFF; --brand-soft:#E4EAF6;
+  --band:#1E3F8F; --band-fg:#FFFFFF; --band-muted:#C5D2EE;
+  --bg:#F4F6F9; --surface:#FFFFFF; --fg:#152031; --muted:#5B6879; --line:#D8DEE7;
+  --cond:#9A5F0C; --cond-soft:#FBF0DD;
+  --ok:#1F7A4D; --ok-soft:#E1F2E8;
+  --note:#6B4F00; --note-bg:#FFF3C4; --note-line:#E3C65A;
+  --f-display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --r:6px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --brand:#8EADF2; --brand-ink:#0B1424; --brand-soft:#1B2A47;
+    --band:#14223F; --band-fg:#E6ECF3; --band-muted:#A9B9D8;
+    --bg:#0E1520; --surface:#151F2D; --fg:#E6ECF3; --muted:#9AA8B8; --line:#273548;
+    --cond:#E3A64B; --cond-soft:#36290F;
+    --ok:#6CC596; --ok-soft:#15301F;
+    --note:#F2D675; --note-bg:#352E12; --note-line:#6B5A1E;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --brand:#8EADF2; --brand-ink:#0B1424; --brand-soft:#1B2A47;
+  --band:#14223F; --band-fg:#E6ECF3; --band-muted:#A9B9D8;
+  --bg:#0E1520; --surface:#151F2D; --fg:#E6ECF3; --muted:#9AA8B8; --line:#273548;
+  --cond:#E3A64B; --cond-soft:#36290F;
+  --ok:#6CC596; --ok-soft:#15301F;
+  --note:#F2D675; --note-bg:#352E12; --note-line:#6B5A1E;
+  color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 16px/1.55 var(--f-body);-webkit-font-smoothing:antialiased}
+img{max-width:100%}
+[hidden]{display:none!important}
+a{color:inherit}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.1}
+p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:2px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.wrap{max-width:1200px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{font:500 .75rem/1.2 var(--f-mono);text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+.lead{font-size:1.125rem;color:var(--muted);max-width:60ch}
+
+/* Notas de desenho */
+.note{display:none;align-items:flex-start;gap:.4em;background:var(--note-bg);color:var(--note);border:1px solid var(--note-line);border-radius:4px;padding:.3em .55em;font:500 .75rem/1.35 var(--f-mono);text-transform:none;letter-spacing:0;text-align:left;max-width:60ch}
+.note::before{content:"NOTA";font-weight:600;letter-spacing:.06em}
+html.notes .note{display:inline-flex}
+html.notes .note.block{display:flex;width:fit-content}
+.notes-btn{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;border:1px solid var(--note-line);background:var(--note-bg);color:var(--note);border-radius:999px;padding:.55em 1em;font:500 .8rem/1 var(--f-mono);cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+
+/* Cabeçalho */
+.site-head{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--surface);border-bottom:1px solid var(--line)}
+.head-row{display:flex;align-items:center;gap:24px;min-height:64px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.logo-mark{display:grid;grid-template-columns:repeat(2,9px);gap:2px}
+.logo-mark i{width:9px;height:9px;background:var(--brand);display:block}
+.logo-mark i:nth-child(4){background:transparent;border:1.5px solid var(--brand)}
+.logo-text{font:700 1.05rem/1 var(--f-display);font-stretch:112%;letter-spacing:.01em}
+.logo-text b{font-weight:500;color:var(--muted)}
+.nav{display:flex;gap:4px;margin-left:auto;align-items:center}
+.nav a{text-decoration:none;padding:.5em .75em;border-radius:var(--r);font-weight:500;font-size:.95rem;color:var(--muted)}
+.nav a:hover{color:var(--fg);background:var(--bg)}
+.nav a[aria-current="page"]{color:var(--fg);box-shadow:inset 0 -2px 0 var(--brand);border-radius:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;border:1px solid transparent;border-radius:var(--r);padding:.65em 1.1em;font-weight:600;font-size:.95rem;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn-primary{background:var(--brand);color:var(--brand-ink)}
+.btn-primary:hover{filter:brightness(1.08)}
+.btn-ghost{border-color:var(--line);background:var(--surface)}
+.btn-ghost:hover{border-color:var(--brand)}
+.btn-cond{background:var(--cond-soft);color:var(--cond);border-color:var(--cond)}
+.btn-sm{padding:.45em .8em;font-size:.85rem}
+.menu-btn{display:none;margin-left:auto;background:none;border:1px solid var(--line);border-radius:var(--r);padding:.45em .7em;cursor:pointer}
+@media (max-width:900px){
+  .menu-btn{display:inline-flex}
+  .nav{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;align-items:stretch;background:var(--surface);border-bottom:1px solid var(--line);padding:8px max(16px,env(safe-area-inset-right,0px)) 16px max(16px,env(safe-area-inset-left,0px));margin:0}
+  .nav.open{display:flex}
+  .nav a[aria-current="page"]{box-shadow:inset 3px 0 0 var(--brand)}
+}
+
+/* Secções */
+.section{padding-block:72px}
+.section + .section{border-top:1px solid var(--line)}
+.sec-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px 32px;margin-bottom:32px}
+.sec-head h2{font-size:clamp(1.6rem,3vw,2.25rem);font-weight:700;font-stretch:108%;margin-top:8px}
+.sec-head .lead{margin-top:10px}
+.link-arrow{font-weight:600;text-decoration:none;color:var(--brand);white-space:nowrap}
+.link-arrow:hover{text-decoration:underline}
+
+/* Herói */
+.hero{padding-block:56px 64px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:56px;align-items:center}
+.hero h1{font-size:clamp(2.3rem,5.2vw,4rem);font-weight:750;font-stretch:115%;line-height:1;letter-spacing:-.01em;margin-top:14px}
+.hero .lead{margin-top:20px}
+.finder{margin-top:32px;display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1.3fr) minmax(0,.9fr) auto;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px}
+.finder input,.finder select{border:0;background:transparent;padding:.6em .7em;min-width:0}
+.finder input{border-right:1px solid var(--line)}
+.finder select{border-right:1px solid var(--line);cursor:pointer}
+.finder input:focus-visible,.finder select:focus-visible{outline-offset:-2px}
+.hero-facts{margin-top:18px;display:flex;flex-wrap:wrap;gap:6px 18px;font:500 .8rem/1.4 var(--f-mono);color:var(--muted)}
+.hero-facts b{color:var(--fg);font-weight:500}
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:minmax(0,1fr);gap:40px}
+  .finder{grid-template-columns:1fr 1fr}
+  .finder input{grid-column:1/-1;border-right:0;border-bottom:1px solid var(--line)}
+  .finder select{border-right:0}
+  .finder .btn{grid-column:1/-1}
+}
+
+/* Matriz de azulejos */
+.matrix{margin:0;width:100%;max-width:340px;justify-self:center}
+.mx{display:grid;grid-template-columns:3.4rem repeat(4,minmax(0,1fr));gap:5px;align-items:center}
+.mx-h{font:500 .7rem/1.2 var(--f-mono);color:var(--muted);text-align:center;padding-bottom:4px}
+.mx-h b{display:block;color:var(--fg);font-size:.8rem}
+.mx-row{font:500 .78rem/1 var(--f-mono);color:var(--fg);text-decoration:none}
+.mx-row:hover{color:var(--brand)}
+.tile{aspect-ratio:1;max-width:100%;border-radius:2px;position:relative;animation:lay .5s cubic-bezier(.2,.7,.3,1) both;animation-delay:calc(var(--i) * 28ms)}
+.t-open{background:var(--brand)}
+.t-open::after{content:"";position:absolute;inset:22%;border:1px solid var(--brand-ink);opacity:.35;transform:rotate(45deg)}
+.t-cond{border:1.5px solid var(--brand);background:repeating-linear-gradient(135deg,var(--brand) 0 2px,transparent 2px 7px)}
+.t-fut{border:1.5px dashed var(--muted);opacity:.7}
+.t-none{background:none}
+@keyframes lay{from{transform:translateY(-8px);opacity:.3}to{transform:none;opacity:1}}
+.mx-legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:16px;font-size:.8rem;color:var(--muted)}
+.mx-legend span{display:inline-flex;align-items:center;gap:6px}
+.mx-legend i{width:14px;height:14px;display:inline-block;border-radius:2px;position:relative}
+.matrix figcaption{font:600 .85rem/1.3 var(--f-body);margin-bottom:12px}
+
+/* Cartões de edição */
+.ed-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+.ed-card{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;text-decoration:none;transition:border-color .15s}
+.ed-card:hover{border-color:var(--brand)}
+.ed-date{display:flex;flex-direction:column;align-items:center;min-width:3.4rem;border-right:1px solid var(--line);padding-right:14px}
+.ed-date .d{font:700 2rem/1 var(--f-display);font-stretch:90%}
+.ed-date .m{font:500 .8rem/1.3 var(--f-mono);color:var(--muted);text-align:center}
+.ed-body{display:flex;flex-direction:column;gap:8px;min-width:0}
+.ed-top{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.ed-title{font:600 1rem/1.35 var(--f-body)}
+.ed-meta{font-size:.85rem;color:var(--muted)}
+.ed-foot{margin-top:auto;font-size:.8rem;color:var(--muted)}
+.code{font:500 .78rem/1 var(--f-mono);background:var(--brand-soft);color:var(--brand);padding:.3em .5em;border-radius:3px;white-space:nowrap}
+.chip{font:500 .72rem/1 var(--f-mono);padding:.32em .55em;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.chip-ok{border-color:transparent;background:var(--ok-soft);color:var(--ok)}
+.chip-cond{border-color:transparent;background:var(--cond-soft);color:var(--cond)}
+.chip-new{border-color:var(--brand);color:var(--brand)}
+
+/* Trilhos */
+.tr-list{border-top:1px solid var(--line)}
+.tr-bloco{display:grid;grid-template-columns:200px minmax(0,1fr);gap:24px;padding-block:20px;border-bottom:1px solid var(--line)}
+.tr-bloco h3{font-size:1rem;font-weight:650;font-stretch:105%}
+.tr-bloco .bl{font:500 .75rem/1 var(--f-mono);color:var(--brand);display:block;margin-bottom:6px}
+.tr-rows{display:flex;flex-direction:column;gap:4px}
+.tr-row{display:grid;grid-template-columns:4rem minmax(0,1fr) auto;gap:16px;align-items:center;padding:12px;margin-inline:-12px;border-radius:8px;text-decoration:none}
+.tr-row:hover{background:var(--surface)}
+.tr-row .nm{font-weight:600}
+.tr-row .ds{font-size:.9rem;color:var(--muted);margin-top:2px}
+.tr-lv{display:flex;gap:4px}
+.lv{font:500 .7rem/1 var(--f-mono);width:2.1rem;text-align:center;padding:.4em 0;border-radius:3px;border:1px solid var(--line);color:var(--muted)}
+.lv.on{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.lv.cond{border-color:var(--brand);color:var(--brand);background:repeating-linear-gradient(135deg,var(--brand-soft) 0 3px,transparent 3px 7px)}
+.lv.fut{border-style:dashed}
+.lv.none{visibility:hidden}
+@media (max-width:760px){
+  .tr-bloco{grid-template-columns:minmax(0,1fr);gap:8px}
+  .tr-row{grid-template-columns:3.2rem minmax(0,1fr)}
+  .tr-lv{grid-column:2}
+}
+
+/* Escada */
+.stairs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;align-items:end}
+.step{display:flex;flex-direction:column;gap:10px}
+.step-bar{border-radius:3px 3px 0 0;height:calc(var(--h) * 26px)}
+.step.on .step-bar{background:var(--brand)}
+.step.fut .step-bar{border:1.5px dashed var(--muted);border-bottom:0}
+.step.tr .step-bar{border:1.5px dotted var(--muted);border-bottom:0}
+.step .lvl{font:500 .8rem/1 var(--f-mono);color:var(--brand)}
+.step h3{font-size:1.05rem;font-weight:650}
+.step p{font-size:.9rem;color:var(--muted)}
+.step .when{font:500 .75rem/1.3 var(--f-mono);color:var(--fg)}
+.callout{margin-top:32px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px 24px}
+.callout p{max-width:70ch}
+@media (max-width:820px){
+  .stairs{grid-template-columns:minmax(0,1fr);gap:20px}
+  .step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 16px}
+  .step-bar{height:auto;width:calc(var(--h) * 10px);grid-row:1/span 4;border-radius:3px}
+  .step.fut .step-bar,.step.tr .step-bar{border-bottom:1.5px dashed var(--muted)}
+}
+
+/* Espaços e semana */
+.spaces{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.space{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:10px}
+.space .when{font:500 .75rem/1.3 var(--f-mono);color:var(--brand)}
+.space h3{font-size:1.1rem;font-weight:650}
+.space p{font-size:.9rem;color:var(--muted)}
+.space .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
+@media (max-width:980px){.spaces{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.spaces{grid-template-columns:minmax(0,1fr)}}
+.week{margin-top:40px}
+.week h3{font-size:1.1rem;font-weight:650;margin-bottom:14px}
+.week-strip{display:grid;grid-template-columns:1fr 2fr 1fr;gap:4px;border-radius:8px;overflow:hidden}
+.ws{padding:14px 16px;display:flex;flex-direction:column;gap:4px;background:var(--surface);border:1px solid var(--line)}
+.ws.pres{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.ws .k{font:500 .72rem/1 var(--f-mono);text-transform:uppercase;letter-spacing:.08em;opacity:.8}
+.ws .v{font-weight:600}
+.ws .s{font-size:.85rem;opacity:.85}
+@media (max-width:640px){.week-strip{grid-template-columns:minmax(0,1fr)}}
+
+/* Banda empresas */
+.band{background:var(--band);color:var(--band-fg)}
+.band .eyebrow{color:var(--band-muted)}
+.band-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:48px;padding-block:64px}
+.band h2{font-size:clamp(1.5rem,2.6vw,2rem);font-weight:700;font-stretch:108%;margin:10px 0 12px}
+.band p{color:var(--band-muted);max-width:52ch}
+.band ul{margin:16px 0 24px;padding-left:1.1em;display:grid;gap:6px}
+.band .btn-light{background:var(--band-fg);color:var(--band)}
+.band .btn-outline{border-color:var(--band-muted);color:var(--band-fg)}
+@media (max-width:820px){.band-grid{grid-template-columns:minmax(0,1fr);gap:40px}}
+
+.lib{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center}
+@media (max-width:700px){.lib{grid-template-columns:minmax(0,1fr)}}
+
+/* Rodapé */
+.foot{border-top:1px solid var(--line);background:var(--surface);padding-block:40px 72px;font-size:.9rem;color:var(--muted)}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:32px}
+.foot h4{margin:0 0 10px;font:600 .8rem/1 var(--f-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--fg)}
+.foot a{display:block;text-decoration:none;padding-block:3px}
+.foot a:hover{color:var(--fg)}
+@media (max-width:700px){.foot-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* Catálogo */
+.page-head{padding-block:48px 28px}
+.page-head h1{font-size:clamp(2rem,4vw,3rem);font-weight:750;font-stretch:112%;margin-top:10px}
+.page-head .lead{margin-top:14px}
+.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:end;padding:16px;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field label{font:500 .72rem/1 var(--f-mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.field input,.field select,.field textarea{border:1px solid var(--line);background:var(--bg);border-radius:var(--r);padding:.55em .7em;min-width:0}
+.filters .field{flex:1 1 150px}
+.filters .field.q{flex:2 1 240px}
+.check{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;padding-bottom:.55em}
+.check input{width:1.05em;height:1.05em;accent-color:var(--brand)}
+.rule-line{margin-top:14px;font-size:.88rem;color:var(--muted)}
+.sem{margin-top:40px}
+.sem-head{display:flex;flex-wrap:wrap;gap:8px 24px;align-items:baseline;justify-content:space-between;margin-bottom:12px}
+.sem-head h2{font-size:1.35rem;font-weight:700;font-stretch:106%}
+.sem-head .cnt{font:500 .8rem/1 var(--f-mono);color:var(--muted)}
+.wk{display:grid;gap:2px;margin-bottom:6px}
+.wk i{height:10px;background:var(--line);border-radius:1px}
+.wk i.on{background:var(--brand)}
+.wk i.c{background:var(--cond)}
+.wk-lab{display:flex;justify-content:space-between;font:500 .7rem/1 var(--f-mono);color:var(--muted);margin-bottom:14px}
+.rows{border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:8.5rem 5.5rem minmax(0,1fr) 12rem 7.5rem 9rem;gap:16px;align-items:center;padding:14px 4px;border-bottom:1px solid var(--line)}
+.row .dt{font:500 .85rem/1.3 var(--f-mono)}
+.row .dt small{display:block;color:var(--muted);font-size:.72rem}
+.row .ti a{font-weight:600;text-decoration:none}
+.row .ti a:hover{color:var(--brand);text-decoration:underline}
+.row .ti small{display:block;color:var(--muted);font-size:.82rem;margin-top:2px}
+.row .sp{font-size:.85rem;color:var(--muted)}
+.row .dec{font-size:.78rem;color:var(--muted)}
+.row .act{justify-self:end}
+.empty{padding:32px 4px;color:var(--muted)}
+@media (max-width:1000px){
+  .row{grid-template-columns:7.5rem minmax(0,1fr) auto;grid-template-areas:"dt ti act" "dt sp st" "dt dec dec"}
+  .row .dt{grid-area:dt;align-self:start}
+  .row .cd{display:none}
+  .row .ti{grid-area:ti}
+  .row .sp{grid-area:sp}
+  .row .st{grid-area:st;justify-self:end}
+  .row .dec{grid-area:dec}
+  .row .act{grid-area:act;align-self:start}
+}
+@media (max-width:560px){
+  .row{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"dt st" "ti ti" "sp sp" "dec act"}
+  .row .act{align-self:center}
+}
+
+/* Página de curso */
+.crumb{font-size:.85rem;color:var(--muted);padding-top:28px}
+.crumb a{text-decoration:none}
+.crumb a:hover{color:var(--fg);text-decoration:underline}
+.course{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:48px;padding-block:20px 72px;align-items:start}
+.course h1{font-size:clamp(1.8rem,3.6vw,2.7rem);font-weight:750;font-stretch:108%;margin-top:14px}
+.course .ctop{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:28px}
+.fact{background:var(--surface);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.fact .k{font:500 .7rem/1 var(--f-mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.fact .v{font-weight:600}
+.block{margin-top:40px}
+.block h2{font-size:1.3rem;font-weight:700;font-stretch:106%;margin-bottom:12px}
+.block p{max-width:65ch}
+.block p + p{margin-top:10px}
+.aside{position:sticky;top:calc(88px + env(safe-area-inset-top,0px));background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:14px}
+.aside .big{font:700 1.6rem/1.1 var(--f-display);font-stretch:95%}
+.aside dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.88rem}
+.aside dt{color:var(--muted)}
+.aside dd{margin:0;font-weight:500}
+.ed-list{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.ed-li{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:16px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.ed-li .dt{font:500 .9rem/1.3 var(--f-mono)}
+.ed-li small{display:block;color:var(--muted);font:400 .78rem/1.3 var(--f-body)}
+.next{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+@media (max-width:960px){
+  .course{grid-template-columns:minmax(0,1fr)}
+  .aside{position:static}
+  .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:520px){.ed-li{grid-template-columns:minmax(0,1fr) auto}.ed-li .chip{display:none}}
+
+/* Empresas */
+.offer{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:28px;display:flex;flex-direction:column;gap:14px}
+.panel h2{font-size:1.5rem;font-weight:700;font-stretch:106%}
+.panel ul{margin:0;padding-left:1.1em;display:grid;gap:6px}
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 .72rem/1.2 var(--f-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.form .full{grid-column:1/-1}
+.ok-msg{background:var(--ok-soft);color:var(--ok);border-radius:8px;padding:12px 14px;font-weight:500}
+@media (max-width:820px){.offer,.form{grid-template-columns:minmax(0,1fr)}}
+
+/* Área empresa */
+.app-head{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:end;justify-content:space-between;padding-block:40px 24px}
+.app-head h1{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;font-stretch:108%;margin-top:8px}
+.kpis{display:grid;grid-template-columns:2fr 1fr 1fr;gap:16px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:10px}
+.kpi .k{font:500 .72rem/1 var(--f-mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.kpi .v{font:700 2rem/1 var(--f-display);font-stretch:95%;font-variant-numeric:tabular-nums}
+.kpi .s{font-size:.85rem;color:var(--muted)}
+.meter{display:flex;height:12px;border-radius:3px;overflow:hidden;background:var(--line)}
+.meter i{display:block;height:100%}
+.meter .m1{background:var(--brand)}
+.meter .m2{background:repeating-linear-gradient(135deg,var(--brand) 0 2px,var(--brand-soft) 2px 6px)}
+.meter-leg{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.8rem;color:var(--muted)}
+.meter-leg i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.alert{display:flex;gap:12px;align-items:flex-start;background:var(--cond-soft);color:var(--cond);border-radius:10px;padding:14px 16px;margin-top:16px;font-weight:500}
+.alert::before{content:"";flex:0 0 8px;height:8px;margin-top:.45em;border-radius:50%;background:var(--cond)}
+.app-sec{margin-top:36px}
+.app-sec h2{font-size:1.2rem;font-weight:700;font-stretch:106%;margin-bottom:12px}
+.pill{font:500 .72rem/1 var(--f-mono);padding:.3em .5em;border-radius:3px;white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.w{background:var(--cond-soft);color:var(--cond)}
+.path{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.path .arr{color:var(--muted)}
+@media (max-width:820px){.kpis{grid-template-columns:minmax(0,1fr)}}
+
+/* Diálogo de inscrição */
+dialog{border:1px solid var(--line);border-radius:14px;padding:0;background:var(--surface);color:var(--fg);width:min(560px,calc(100vw - 32px));max-height:calc(100vh - 48px)}
+dialog::backdrop{background:rgba(10,16,28,.55)}
+.dlg{padding:24px;display:flex;flex-direction:column;gap:16px}
+.dlg h2{font-size:1.3rem;font-weight:700}
+.dlg-x{position:absolute;right:12px;top:12px;background:none;border:0;font-size:1.4rem;line-height:1;cursor:pointer;color:var(--muted);padding:6px}
+.dlg-actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .tile{animation:none}
+}
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap head-row" style="position:relative">
+    <a class="logo" href="#inicio" aria-label="Academia CTCV, início">
+      <span class="logo-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span class="logo-text">Academia <b>CTCV</b></span>
+    </a>
+    <span class="note">Logótipo e cores provisórios. Substituir pelos oficiais do CTCV.</span>
+    <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="nav" id="nav" aria-label="Principal">
+      <a href="#cursos" data-r="cursos">Cursos e calendário</a>
+      <a href="#trilhos" data-r="trilhos">Trilhos</a>
+      <a href="#empresas" data-r="empresas">Para empresas</a>
+      <a href="#biblioteca" data-r="biblioteca">Biblioteca Digital</a>
+      <a class="btn btn-ghost btn-sm" href="#area" data-r="area" style="margin-left:8px">Área Empresa</a>
+    </nav>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<footer class="foot">
+  <div class="wrap foot-grid">
+    <div>
+      <div class="logo" style="margin-bottom:12px"><span class="logo-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="logo-text">Academia <b>CTCV</b></span></div>
+      <p>Centro Tecnológico da Cerâmica e do Vidro<br>Coimbra iParque, Lote 6 e 7, 3040-540 Antanhol</p>
+      <p style="margin-top:12px"><span class="note">Contactos, redes e textos legais por preencher.</span></p>
+    </div>
+    <div>
+      <h4>Formação</h4>
+      <a href="#cursos">Cursos e calendário</a>
+      <a href="#trilhos">Trilhos</a>
+      <a href="#biblioteca">Biblioteca Digital</a>
+    </div>
+    <div>
+      <h4>Empresas</h4>
+      <a href="#empresas">Empresas-Âncora</a>
+      <a href="#empresas">Programas Customizados</a>
+      <a href="#area">Área Empresa</a>
+    </div>
+  </div>
+</footer>
+
+<button class="notes-btn" id="notes-btn" aria-pressed="false">Ver notas de desenho</button>
+
+<dialog id="dlg" aria-labelledby="dlg-title">
+  <form class="dlg" id="dlg-form" method="dialog" novalidate>
+    <button type="button" class="dlg-x" id="dlg-x" aria-label="Fechar">×</button>
+    <div>
+      <div class="eyebrow" id="dlg-eyebrow"></div>
+      <h2 id="dlg-title" style="margin-top:8px"></h2>
+      <p class="ed-meta" id="dlg-sub" style="margin-top:6px"></p>
+    </div>
+    <div class="form" id="dlg-fields">
+      <div class="field"><label for="f-nome">Nome</label><input id="f-nome" required autocomplete="name"></div>
+      <div class="field"><label for="f-email">Email</label><input id="f-email" type="email" required autocomplete="email"></div>
+      <div class="field"><label for="f-empresa">Empresa</label><input id="f-empresa" autocomplete="organization"></div>
+      <div class="field"><label for="f-funcao">Função</label><input id="f-funcao" autocomplete="organization-title"></div>
+      <label class="check full" id="f-exp-wrap"><input type="checkbox" id="f-exp"> Tenho mais de 10 anos no setor ou mais de 3 na empresa (entrada direta no nível 2, sujeita a validação)</label>
+    </div>
+    <p class="ok-msg" id="dlg-ok" hidden></p>
+    <span class="note block">Protótipo: nada é enviado. A inscrição real liga à plataforma de formação e ao CRM que o CTCV já usa (Humantrain, Dynamics), a confirmar.</span>
+    <div class="dlg-actions">
+      <button type="button" class="btn btn-ghost" id="dlg-cancel">Cancelar</button>
+      <button type="submit" class="btn btn-primary" id="dlg-submit">Enviar</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- Dados (Calendário de Programas Abertos 2027–2028) ---------- */
+const BLOCOS = {
+  A:"Gestão",
+  B:"Engenharia e Operação",
+  C:"Qualidade e Sustentabilidade",
+  D:"Liderança e Pessoas"
+};
+const TRILHOS = [
+  {id:"A1", bl:"A", nome:"Back Office Industrial", ds:"Gestão administrativa, ERP e automatização dos processos de suporte da fábrica."},
+  {id:"B1", bl:"B", nome:"Engenharia de Processo & Digitalização", ds:"Dados, sensores, controlo de processo e manutenção preditiva, com prática no Factory Lab."},
+  {id:"B2", bl:"B", nome:"Operação Industrial & Produção", ds:"Operação, autocontrolo da qualidade e melhoria contínua na linha de produção."},
+  {id:"B3", bl:"B", nome:"IA, Robótica & Inovação", novo:true, ds:"Inteligência artificial, robótica colaborativa e visão artificial aplicadas ao processo. Literacia e aplicação, sem programação."},
+  {id:"C1", bl:"C", nome:"Sustentabilidade & Energia", ds:"Literacia ambiental e energética, eficiência energética e economia circular na operação."},
+  {id:"C2", bl:"C", nome:"Qualidade & Certificação", ds:"Qualidade, metrologia e ensaios, nos laboratórios acreditados do CTCV."},
+  {id:"D1", bl:"D", nome:"Liderança de Equipas Industriais", ds:"Liderança e comunicação com equipas de produção, em formato executivo com a NOVA SBE."},
+  {id:"D23", bl:"D", nome:"Pessoas, Segurança & Cultura Preventiva", ds:"Gestão de pessoas, segurança operacional e cultura preventiva. Começa no nível 2."}
+];
+const ESPACOS = {
+  sala:{nome:"Sala", formato:"Standard", dias:"2 dias presenciais", abre:"11 inscritos", lot:"25 lugares"},
+  labs:{nome:"Laboratórios acreditados do CTCV", formato:"Laboratório", dias:"3 dias presenciais", abre:"14 inscritos", lot:"25 lugares"},
+  factory:{nome:"Factory Lab", formato:"Laboratório intensivo", dias:"3 dias presenciais", abre:"14 inscritos", lot:"25 lugares"},
+  exec:{nome:"Executiva · NOVA SBE", formato:"Executivo residencial", dias:"Residencial", abre:"6 participantes", lot:"20 participantes"}
+};
+/* [código, trilho, nível, título, espaço, edições [ano, semana ISO, condicional?]] */
+const CURSOS = [
+  ["A1-N1","A1",1,"Fundamentos de gestão administrativa industrial","sala",[[2027,15],[2028,13]]],
+  ["A1-N2","A1",2,"ERP, dashboards e automatização administrativa","sala",[[2028,40,1]]],
+  ["B1-N1","B1",1,"Literacia industrial digital: dados, sensores e processo 4.0","factory",[[2027,38],[2027,43],[2028,7],[2028,19],[2028,38]]],
+  ["B1-N2","B1",2,"Controlo de processo, dados e manutenção preditiva","factory",[[2028,11],[2028,42]]],
+  ["B2-N1","B2",1,"Fundamentos de operação industrial e literacia de processo (cerâmica e vidro)","sala",[[2027,9],[2027,37],[2028,6],[2028,37]]],
+  ["B2-N2","B2",2,"Controlo operacional, autocontrolo da qualidade e melhoria contínua","sala",[[2027,45],[2028,16],[2028,43]]],
+  ["B3-N1","B3",1,"Literacia em inteligência artificial, robótica e inovação para a indústria cerâmica e do vidro","sala",[[2027,18],[2027,25,1],[2027,40],[2028,10],[2028,39]]],
+  ["B3-N2","B3",2,"Robótica colaborativa, visão artificial e IA aplicada ao processo","factory",[[2028,15],[2028,45]]],
+  ["C1-N1","C1",1,"Literacia ambiental e energética industrial","sala",[[2027,21],[2028,18]]],
+  ["C1-N2","C1",2,"Eficiência energética e economia circular na operação","sala",[[2028,44,1]]],
+  ["C2-N1","C2",1,"Fundamentos da qualidade e metrologia industrial (cerâmica e vidro)","labs",[[2027,12],[2027,41],[2028,9],[2028,41]]],
+  ["C2-N2","C2",2,"Ensaios, controlo de qualidade e laboratório aplicado","labs",[[2028,21],[2028,46,1]]],
+  ["D1-N1","D1",1,"Fundamentos de liderança de equipas em contexto fabril","exec",[[2027,47],[2028,47]]],
+  ["D1-N2","D1",2,"Comunicação operacional e gestão de equipas de produção","exec",[[2028,23]]],
+  ["D23-N2","D23",2,"Gestão de pessoas, segurança operacional e cultura preventiva na operação","sala",[[2028,48,1]]]
+].map(([code,tr,nivel,titulo,esp,eds])=>({code,tr,nivel,titulo,esp,eds}));
+
+const TR = Object.fromEntries(TRILHOS.map(t=>[t.id,t]));
+const CU = Object.fromEntries(CURSOS.map(c=>[c.code,c]));
+const trCode = id => id==="D23" ? "D2/D3" : id;
+const cuCode = c => c.replace("D23","D2/D3");
+
+/* ---------- Datas ---------- */
+const M = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+function isoMonday(y,w){const j=new Date(Date.UTC(y,0,4));const d=(j.getUTCDay()+6)%7;const r=new Date(j);r.setUTCDate(j.getUTCDate()-d+(w-1)*7);return r}
+function add(d,n){const r=new Date(d);r.setUTCDate(r.getUTCDate()+n);return r}
+function fd(d){return d.getUTCDate()+" "+M[d.getUTCMonth()]+" "+d.getUTCFullYear()}
+function fr(s){const e=add(s,4);return s.getUTCMonth()===e.getUTCMonth()?`${s.getUTCDate()}–${e.getUTCDate()} ${M[s.getUTCMonth()]} ${s.getUTCFullYear()}`:`${s.getUTCDate()} ${M[s.getUTCMonth()]} – ${e.getUTCDate()} ${M[e.getUTCMonth()]} ${e.getUTCFullYear()}`}
+
+const EDS = CURSOS.flatMap(c=>c.eds.map(([y,w,cond])=>{
+  const start=isoMonday(y,w);
+  return {c, y, w, cond:!!cond, start, sem:`${y}-S${w<=30?1:2}`, dec:add(start,-42), nom:add(start,-56)};
+})).sort((a,b)=>a.start-b.start);
+
+const SEMS = [
+  {id:"2027-S1", y:2027, s:1, label:"2027 · 1.º semestre", sub:"fevereiro a julho", w0:5, w1:30},
+  {id:"2027-S2", y:2027, s:2, label:"2027 · 2.º semestre", sub:"setembro a dezembro", w0:36, w1:50},
+  {id:"2028-S1", y:2028, s:1, label:"2028 · 1.º semestre", sub:"fevereiro a julho", w0:5, w1:30},
+  {id:"2028-S2", y:2028, s:2, label:"2028 · 2.º semestre", sub:"setembro a dezembro", w0:36, w1:50}
+];
+
+/* ---------- Componentes ---------- */
+const stChip = e => e.cond ? `<span class="chip chip-cond">Condicional</span>` : `<span class="chip chip-ok">Prevista</span>`;
+const lvLabel = n => "Nível "+n;
+
+function edCard(e){
+  const s=e.start;
+  return `<a class="ed-card" href="#curso-${e.c.code}">
+    <div class="ed-date"><span class="d">${s.getUTCDate()}</span><span class="m">${M[s.getUTCMonth()]}<br>${s.getUTCFullYear()}</span></div>
+    <div class="ed-body">
+      <div class="ed-top"><span class="code">${cuCode(e.c.code)}</span>${stChip(e)}</div>
+      <div class="ed-title">${e.c.titulo}</div>
+      <div class="ed-meta">${TR[e.c.tr].nome} · ${ESPACOS[e.c.esp].nome}</div>
+      <div class="ed-foot">Decisão de abertura: ${fd(e.dec)}</div>
+    </div>
+  </a>`;
+}
+
+function cellState(tr,n){
+  if(n>=3) return "fut";
+  const c = CURSOS.find(x=>x.tr===tr && x.nivel===n);
+  if(!c) return "none";
+  return c.eds.some(e=>!e[2]) ? "open" : "cond";
+}
+const stateTxt = {open:"com edições previstas em 2027–2028", cond:"só com edição condicional em 2028", fut:"previsto, se houver aprovados suficientes", none:"este trilho começa no nível 2"};
+
+function matrix(){
+  let i=0, rows="";
+  for(const t of TRILHOS){
+    rows += `<a class="mx-row" href="#trilho-${t.id}" title="${t.nome}">${trCode(t.id)}</a>`;
+    for(let n=1;n<=4;n++){
+      const st=cellState(t.id,n);
+      rows += `<span class="tile t-${st}" style="--i:${i++}" title="${trCode(t.id)} · nível ${n}: ${stateTxt[st]}" role="img" aria-label="${trCode(t.id)} nível ${n}: ${stateTxt[st]}"></span>`;
+    }
+  }
+  return `<figure class="matrix">
+    <figcaption>Oito trilhos, quatro níveis. O que abre em 2027–2028.</figcaption>
+    <div class="mx">
+      <span></span>
+      <span class="mx-h"><b>N1</b>2027</span>
+      <span class="mx-h"><b>N2</b>2027–28</span>
+      <span class="mx-h"><b>N3</b>2029</span>
+      <span class="mx-h"><b>N4</b>2030</span>
+      ${rows}
+    </div>
+    <div class="mx-legend">
+      <span><i class="t-open"></i>Previsto</span>
+      <span><i class="t-cond"></i>Condicional</span>
+      <span><i class="t-fut"></i>Abre com aprovados do nível anterior</span>
+    </div>
+  </figure>`;
+}
+
+function trLevels(id){
+  let h="";
+  for(let n=1;n<=4;n++){const st=cellState(id,n);h+=`<span class="lv ${st==="open"?"on":st}" title="Nível ${n}: ${stateTxt[st]}">N${n}</span>`}
+  return `<span class="tr-lv">${h}</span>`;
+}
+
+/* ---------- Vistas ---------- */
+function vHome(){
+  const nCursos=CURSOS.length, nEd=EDS.length, nPrev=EDS.filter(e=>!e.cond).length;
+  const prox = EDS.slice(0,6).map(edCard).join("");
+  const blocos = Object.entries(BLOCOS).map(([k,v])=>`
+    <div class="tr-bloco">
+      <div><span class="bl">BLOCO ${k}</span><h3>${v}</h3></div>
+      <div class="tr-rows">
+        ${TRILHOS.filter(t=>t.bl===k).map(t=>`
+          <a class="tr-row" id="trilho-${t.id}" href="#cursos-${t.id}">
+            <span class="code">${trCode(t.id)}</span>
+            <span><span class="nm">${t.nome}</span>${t.novo?` <span class="chip chip-new">Novo</span>`:""}<span class="ds" style="display:block">${t.ds}</span></span>
+            ${trLevels(t.id)}
+          </a>`).join("")}
+      </div>
+    </div>`).join("");
+
+  return `
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">Calendário 2027–2028</div>
+        <h1>Formação para quem faz a cerâmica e o vidro.</h1>
+        <p class="lead">Oito trilhos, da operação à liderança, construídos por níveis: começa-se pelos fundamentos e sobe-se com quem foi aprovado. A primeira edição arranca a 1 de março de 2027.</p>
+        <form class="finder" id="finder" role="search">
+          <input id="h-q" type="search" placeholder="Curso, tema ou código (ex.: robótica, B2-N1)" aria-label="Procurar curso">
+          <select id="h-tr" aria-label="Trilho"><option value="">Todos os trilhos</option>${TRILHOS.map(t=>`<option value="${t.id}">${trCode(t.id)} · ${t.nome}</option>`).join("")}</select>
+          <select id="h-nv" aria-label="Nível"><option value="">Todos os níveis</option><option value="1">Nível 1</option><option value="2">Nível 2</option></select>
+          <button class="btn btn-primary" type="submit">Procurar</button>
+        </form>
+        <div class="hero-facts"><span><b>${nCursos}</b> cursos</span><span><b>${nPrev}</b> edições previstas</span><span><b>${nEd-nPrev}</b> condicionais</span><span><b>4</b> semestres</span></div>
+      </div>
+      ${matrix()}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><div class="eyebrow">Próximas edições</div><h2>O primeiro semestre de 2027</h2></div>
+        <a class="link-arrow" href="#cursos">Ver o calendário completo →</a>
+      </div>
+      <div class="ed-grid">${prox}</div>
+      <p class="rule-line" style="margin-top:20px">Cada edição abre com um número mínimo de inscritos, verificado seis semanas antes do início. As condicionais só abrem com inscrições suficientes até essa data.</p>
+      <span class="note block" style="margin-top:10px">B3-N1 de maio aparece como prevista. Ainda está por decidir se fica prevista ou condicional até haver cartas de intenção (R1-D11). C2-N1 de março depende de os laboratórios acreditados estarem livres (R1-D08).</span>
+    </div>
+  </section>
+
+  <section class="section" id="sec-trilhos">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><div class="eyebrow">Trilhos</div><h2>Quatro blocos, oito trilhos</h2><p class="lead">Cada trilho é uma escada de níveis num tema da fábrica. Escolha o tema e entre no nível certo.</p></div>
+      </div>
+      <span class="note block" style="margin-bottom:16px">Nomes dos blocos por confirmar. O bloco A fica só com A1 depois de o trilho comercial passar para Customizados (R1-D02).</span>
+      <div class="tr-list">${blocos}</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><div class="eyebrow">Como se progride</div><h2>Uma escada, um nível de cada vez</h2><p class="lead">Os níveis abrem por ordem. Um nível 3 só abre quando o trilho tiver pelo menos 8 aprovados no nível 2.</p></div>
+      </div>
+      <div class="stairs">
+        <div class="step on" style="--h:1"><div class="step-bar"></div><span class="lvl">N1</span><h3>Fundamentos</h3><p>As bases do tema, para quem trabalha na fábrica.</p><span class="when">Desde março de 2027</span></div>
+        <div class="step on" style="--h:2"><div class="step-bar"></div><span class="lvl">N2</span><h3>Aplicação</h3><p>Aplicar na operação. Abre um semestre depois do primeiro N1 do trilho.</p><span class="when">Desde novembro de 2027</span></div>
+        <div class="step fut" style="--h:3"><div class="step-bar"></div><span class="lvl">N3</span><h3>Nível 3</h3><p>Nos trilhos com pelo menos 8 aprovados de nível 2.</p><span class="when">A partir de 2029</span></div>
+        <div class="step fut" style="--h:4"><div class="step-bar"></div><span class="lvl">N4</span><h3>Nível 4</h3><p>Onde houver aprovados de nível 3. Conduz ao Certificado Avançado.</p><span class="when">A partir de 2030</span></div>
+        <div class="step tr" style="--h:5"><div class="step-bar"></div><span class="lvl">N5</span><h3>Transversal</h3><p>Formação de formadores industriais.</p><span class="when">Fora do calendário 2027–2028</span></div>
+      </div>
+      <span class="note block" style="margin-top:16px">Nomes dos níveis por confirmar. Regra do Certificado Avançado para quem entra direto no N2 por decidir (R1-D10).</span>
+      <div class="callout">
+        <p><strong>Já tem experiência?</strong> Com mais de 10 anos no setor ou mais de 3 na empresa pode entrar diretamente no nível 2, mediante validação.</p>
+        <a class="btn btn-ghost" href="#cursos">Ver cursos de nível 2</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><div class="eyebrow">Onde se aprende</div><h2>Quatro espaços, um formato para cada tema</h2></div>
+      </div>
+      <div class="spaces">
+        <div class="space"><span class="when">Desde março de 2027</span><h3>Sala</h3><p>Formato Standard, com 2 dias presenciais. Em B3, com demonstrações de IA e robótica.</p><div class="tags"><span class="chip">A1</span><span class="chip">B2</span><span class="chip">B3</span><span class="chip">C1</span><span class="chip">D2/D3</span></div></div>
+        <div class="space"><span class="when">Desde março de 2027</span><h3>Laboratórios acreditados do CTCV</h3><p>Qualidade, metrologia e ensaios onde o setor certifica os seus produtos.</p><div class="tags"><span class="chip">C2</span></div></div>
+        <div class="space"><span class="when">A partir de setembro de 2027</span><h3>Factory Lab</h3><p>Laboratório intensivo, 3 dias presenciais: dados, sensores, cobots e visão artificial.</p><div class="tags"><span class="chip">B1</span><span class="chip">B3-N2</span></div></div>
+        <div class="space"><span class="when">A partir de novembro de 2027</span><h3>Executivo com a NOVA SBE</h3><p>Formato residencial para chefias e direções de produção.</p><div class="tags"><span class="chip">D1</span></div></div>
+      </div>
+      <div class="week">
+        <h3>Uma semana de formação</h3>
+        <div class="week-strip">
+          <div class="ws"><span class="k">Primeiro dia · online</span><span class="v">Nivelamento</span><span class="s">Todos chegam ao presencial com a mesma base.</span></div>
+          <div class="ws pres"><span class="k">Presencial</span><span class="v">2 dias em sala, 3 em laboratório</span><span class="s">Casos e prática com processos da cerâmica e do vidro.</span></div>
+          <div class="ws"><span class="k">Último dia · online</span><span class="v">Consolidação e avaliação</span><span class="s">Prova final e registo do aproveitamento.</span></div>
+        </div>
+        <span class="note block" style="margin-top:10px">Local e forma da prova final por decidir (R2-D03). Dias presenciais nos laboratórios acreditados a confirmar.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap band-grid">
+      <div>
+        <div class="eyebrow">Empresas-Âncora</div>
+        <h2>Um percurso de dois anos para os seus quadros</h2>
+        <p>Reserve uma bolsa de vagas para 2027–2028, com datas publicadas e prioridade na passagem ao nível 3 em 2029.</p>
+        <ul><li>Reserva com nome até oito semanas antes de cada edição</li><li>Demonstrações de IA e robótica a partir de maio de 2027</li><li>Pilotos no Factory Lab a partir de setembro de 2027</li></ul>
+        <a class="btn btn-light" href="#empresas">Conhecer o programa</a>
+      </div>
+      <div>
+        <div class="eyebrow">Programas Customizados</div>
+        <h2>Formação fechada, desenhada para a sua empresa</h2>
+        <p>Para equipas de mais de seis pessoas ou temas fora do calendário aberto, como venda técnica e exportação.</p>
+        <ul><li>Diagnóstico das necessidades com a equipa da Academia</li><li>Na sua fábrica ou nos espaços do CTCV</li><li>Construídos sobre os mesmos trilhos e níveis</li></ul>
+        <a class="btn btn-outline" href="#empresas">Pedir proposta</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="sec-biblioteca">
+    <div class="wrap lib">
+      <div>
+        <div class="eyebrow">Biblioteca Digital</div>
+        <h2 style="font-size:clamp(1.5rem,2.6vw,2rem);font-weight:700;font-stretch:108%;margin-top:8px">Formação de base ao seu ritmo</h2>
+        <p class="lead" style="margin-top:10px">Conteúdos online para todos os trabalhadores, incluindo segurança operacional enquanto o trilho D2/D3 não abre em sala.</p>
+        <span class="note block" style="margin-top:10px">Conteúdo e acesso da Biblioteca por definir. Esta vista é só a porta de entrada.</span>
+      </div>
+      <a class="btn btn-ghost" href="#biblioteca">Explorar a Biblioteca</a>
+    </div>
+  </section>`;
+}
+
+const F = {q:"", tr:"", nv:"", esp:"", sem:"", cond:true};
+function vCursos(){
+  return `
+  <section class="page-head"><div class="wrap">
+    <div class="eyebrow">Programas Abertos</div>
+    <h1>Cursos e calendário 2027–2028</h1>
+    <p class="lead">${CURSOS.length} cursos de nível 1 e 2 em oito trilhos, ${EDS.length} edições em quatro semestres. Cada edição dura uma semana.</p>
+  </div></section>
+  <section class="wrap" style="padding-bottom:72px">
+    <div class="filters" role="search">
+      <div class="field q"><label for="c-q">Procurar</label><input id="c-q" type="search" placeholder="Curso, tema ou código" value="${F.q.replace(/"/g,"&quot;")}"></div>
+      <div class="field"><label for="c-tr">Trilho</label><select id="c-tr"><option value="">Todos</option>${TRILHOS.map(t=>`<option value="${t.id}" ${F.tr===t.id?"selected":""}>${trCode(t.id)} · ${t.nome}</option>`).join("")}</select></div>
+      <div class="field"><label for="c-nv">Nível</label><select id="c-nv"><option value="">Todos</option><option value="1" ${F.nv==="1"?"selected":""}>Nível 1</option><option value="2" ${F.nv==="2"?"selected":""}>Nível 2</option></select></div>
+      <div class="field"><label for="c-esp">Espaço</label><select id="c-esp"><option value="">Todos</option>${Object.entries(ESPACOS).map(([k,v])=>`<option value="${k}" ${F.esp===k?"selected":""}>${v.nome}</option>`).join("")}</select></div>
+      <div class="field"><label for="c-sem">Semestre</label><select id="c-sem"><option value="">Todos</option>${SEMS.map(s=>`<option value="${s.id}" ${F.sem===s.id?"selected":""}>${s.label}</option>`).join("")}</select></div>
+      <label class="check"><input type="checkbox" id="c-cond" ${F.cond?"checked":""}> Incluir condicionais</label>
+    </div>
+    <p class="rule-line"><span class="chip chip-ok">Prevista</span> abre com o mínimo de inscritos, verificado seis semanas antes. <span class="chip chip-cond">Condicional</span> só abre se houver inscrições suficientes até essa data.</p>
+    <span class="note block" style="margin-top:10px">Mostrar também quantos inscritos faltam para abrir cada edição (recomendação R4-032). Precisa de dados reais de inscrição.</span>
+    <div id="results"></div>
+  </section>`;
+}
+function norm(s){return s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase()}
+function filtered(){
+  const q=norm(F.q.trim());
+  return EDS.filter(e=>{
+    if(!F.cond && e.cond) return false;
+    if(F.tr && e.c.tr!==F.tr) return false;
+    if(F.nv && String(e.c.nivel)!==F.nv) return false;
+    if(F.esp && e.c.esp!==F.esp) return false;
+    if(F.sem && e.sem!==F.sem) return false;
+    if(q){const hay=norm([e.c.code,cuCode(e.c.code),e.c.titulo,TR[e.c.tr].nome,ESPACOS[e.c.esp].nome].join(" "));if(!q.split(/\s+/).every(w=>hay.includes(w)))return false}
+    return true;
+  });
+}
+function renderResults(){
+  const box=document.getElementById("results"); if(!box) return;
+  const list=filtered();
+  if(!list.length){box.innerHTML=`<p class="empty">Nenhuma edição corresponde a estes filtros. Experimente retirar um filtro ou incluir as condicionais.</p>`;return}
+  box.innerHTML = SEMS.map(s=>{
+    const es=list.filter(e=>e.sem===s.id); if(!es.length) return "";
+    const n=s.w1-s.w0+1;
+    let cells=""; for(let w=s.w0;w<=s.w1;w++){const hit=es.filter(e=>e.w===w);const cls=hit.length?(hit.every(e=>e.cond)?"c":"on"):"";cells+=`<i class="${cls}" title="Semana ${w}${hit.length?": "+hit.map(e=>cuCode(e.c.code)).join(", "):""}"></i>`}
+    const prev=es.filter(e=>!e.cond).length, cond=es.length-prev;
+    return `<div class="sem">
+      <div class="sem-head"><h2>${s.label}</h2><span class="cnt">${s.sub} · ${prev} previstas${cond?` · ${cond} condiciona${cond>1?"is":"l"}`:""}</span></div>
+      <div class="wk" style="grid-template-columns:repeat(${n},minmax(0,1fr))" aria-hidden="true">${cells}</div>
+      <div class="wk-lab"><span>semana ${s.w0}</span><span>semana ${s.w1}</span></div>
+      <div class="rows">${es.map(e=>`
+        <div class="row">
+          <div class="dt">${fr(e.start)}<small>semana ${e.w}</small></div>
+          <div class="cd"><span class="code">${cuCode(e.c.code)}</span></div>
+          <div class="ti"><a href="#curso-${e.c.code}">${e.c.titulo}</a><small>${trCode(e.c.tr)} · ${TR[e.c.tr].nome} · ${lvLabel(e.c.nivel)}</small></div>
+          <div class="sp">${ESPACOS[e.c.esp].nome}</div>
+          <div class="st">${stChip(e)}</div>
+          <div class="dec">Decisão: ${fd(e.dec)}</div>
+          <div class="act"><button class="btn ${e.cond?"btn-cond":"btn-primary"} btn-sm" data-ins="${e.c.code}|${e.y}|${e.w}">${e.cond?"Tenho interesse":"Inscrever"}</button></div>
+        </div>`).join("")}
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function vCurso(code){
+  const c=CU[code]; if(!c) return vNotFound();
+  const t=TR[c.tr], sp=ESPACOS[c.esp];
+  const eds=EDS.filter(e=>e.c===c);
+  const nxt=eds.find(e=>!e.cond)||eds[0];
+  const up=CURSOS.find(x=>x.tr===c.tr && x.nivel===c.nivel+1);
+  const down=CURSOS.find(x=>x.tr===c.tr && x.nivel===c.nivel-1);
+  const quem = c.nivel===1
+    ? `Para quem trabalha na indústria e quer as bases deste tema. Não exige formação anterior.`
+    : `Para quem concluiu ${down?`o <a href="#curso-${down.code}">${cuCode(down.code)}</a>`:"o nível anterior"} ou tem mais de 10 anos no setor ou mais de 3 na empresa. Neste caso, a entrada direta é validada pela Academia.`;
+  const extra = c.code==="B3-N1" ? " Em sala, com demonstrações de robótica e visão artificial." : c.esp==="exec" ? " Em parceria com a NOVA SBE." : c.esp==="labs" ? " Nos laboratórios acreditados do CTCV." : c.esp==="factory" ? " No Factory Lab do CTCV." : "";
+  const preco = c.esp==="exec" ? "€450 por vaga · 2 vagas por participante" : "€450 por participante";
+  return `
+  <div class="wrap crumb"><a href="#cursos">Cursos e calendário</a> / <a href="#trilho-${t.id}">${trCode(t.id)} · ${t.nome}</a></div>
+  <div class="wrap course">
+    <article>
+      <div class="ctop"><span class="code">${cuCode(c.code)}</span><span class="chip">${lvLabel(c.nivel)}</span>${t.novo?`<span class="chip chip-new">Trilho novo</span>`:""}</div>
+      <h1>${c.titulo}</h1>
+      <p class="lead" style="margin-top:14px">${t.ds}${extra}</p>
+      <div class="facts">
+        <div class="fact"><span class="k">Trilho</span><span class="v">${trCode(t.id)} · ${t.nome}</span></div>
+        <div class="fact"><span class="k">Formato</span><span class="v">${sp.formato}</span></div>
+        <div class="fact"><span class="k">Espaço</span><span class="v">${sp.nome}</span></div>
+        <div class="fact"><span class="k">Duração</span><span class="v">1 semana · ${sp.dias.toLowerCase()}</span></div>
+        <div class="fact"><span class="k">Lotação</span><span class="v">${sp.lot}</span></div>
+        <div class="fact"><span class="k">Abre com</span><span class="v">${sp.abre}</span></div>
+      </div>
+      <div class="block"><h2>Para quem</h2><p>${quem}</p></div>
+      <div class="block"><h2>Como decorre</h2><p>Primeiro dia online, de nivelamento. Depois ${sp.dias.toLowerCase()} ${c.esp==="exec"?"em formato executivo":"em "+sp.nome.toLowerCase()}. No último dia, online, faz-se a consolidação e a avaliação final.</p>
+        <span class="note block" style="margin-top:10px">Objetivos, programa e formadores a carregar a partir do catálogo de 31 cursos (Anexo E do Plano Operacional).</span>
+      </div>
+      <div class="block"><h2>Edições</h2>
+        <div class="ed-list">${eds.map(e=>`
+          <div class="ed-li">
+            <div><span class="dt">${fr(e.start)}</span><small>Decisão de abertura: ${fd(e.dec)}</small></div>
+            ${stChip(e)}
+            <button class="btn ${e.cond?"btn-cond":"btn-primary"} btn-sm" data-ins="${c.code}|${e.y}|${e.w}">${e.cond?"Tenho interesse":"Inscrever"}</button>
+          </div>`).join("")}
+        </div>
+      </div>
+      <div class="block"><h2>Depois deste curso</h2>
+        ${up?`<div class="next"><div><span class="code">${cuCode(up.code)}</span><p style="margin-top:8px;font-weight:600">${up.titulo}</p></div><a class="btn btn-ghost" href="#curso-${up.code}">Ver nível ${up.nivel}</a></div>`
+          :`<p>O nível ${c.nivel+1} deste trilho abre a partir de 2029, se houver pelo menos 8 aprovados de nível ${c.nivel}. Os aprovados têm prioridade na inscrição.</p>`}
+      </div>
+    </article>
+    <aside class="aside" aria-label="Próxima edição">
+      <div class="eyebrow">Próxima edição</div>
+      <div class="big">${fr(nxt.start)}</div>
+      ${stChip(nxt)}
+      <dl>
+        <dt>Espaço</dt><dd>${sp.nome}</dd>
+        <dt>Decisão</dt><dd>${fd(nxt.dec)}</dd>
+        <dt>Preço</dt><dd>${preco}</dd>
+      </dl>
+      <span class="note">Preço por decidir: €450 único ou por tipologia, €450 / €650 / €900 (R1-D04).</span>
+      <button class="btn ${nxt.cond?"btn-cond":"btn-primary"}" data-ins="${c.code}|${nxt.y}|${nxt.w}">${nxt.cond?"Tenho interesse":"Inscrever"}</button>
+      <a class="btn btn-ghost" href="#empresas">Inscrever uma equipa</a>
+    </aside>
+  </div>`;
+}
+
+function vEmpresas(){
+  return `
+  <section class="page-head"><div class="wrap">
+    <div class="eyebrow">Para empresas</div>
+    <h1>Formar as equipas da fábrica, com datas que pode planear</h1>
+    <p class="lead">O calendário de 2027–2028 está publicado. Reserve vagas para os seus quadros ou peça um programa feito à medida.</p>
+  </div></section>
+  <section class="wrap" style="padding-bottom:72px">
+    <div class="offer">
+      <div class="panel">
+        <div class="eyebrow">Empresas-Âncora</div>
+        <h2>Bolsa de vagas para 2027–2028</h2>
+        <p>Um percurso de dois anos: em 2027 os seus quadros entram no nível 1, ou diretamente no nível 2 se tiverem experiência. Em 2028 fazem o nível 2. Em 2029, os aprovados têm prioridade nos níveis 3 que abrirem.</p>
+        <ul>
+          <li>Reserva com nome até oito semanas antes de cada edição</li>
+          <li>Diagnóstico anual e relatório da sua equipa</li>
+          <li>Demonstrações de IA e robótica a partir de maio de 2027</li>
+          <li>Pilotos no Factory Lab a partir de setembro de 2027</li>
+          <li>Lugar no Conselho Consultivo Setorial</li>
+        </ul>
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>Escalão</th><th class="n">Vagas</th><th class="n">2027</th><th class="n">2028</th></tr></thead>
+          <tbody>
+            <tr><td>Estratégica<br><small style="color:var(--muted)">grupos com mais de 1.000 trabalhadores</small></td><td class="n">60</td><td class="n">20</td><td class="n">40</td></tr>
+            <tr><td>Base<br><small style="color:var(--muted)">empresas com algumas centenas de trabalhadores</small></td><td class="n">40</td><td class="n">15</td><td class="n">25</td></tr>
+            <tr><td>Aderente Setorial<br><small style="color:var(--muted)">PME e cristalaria</small></td><td class="n">20</td><td class="n">8</td><td class="n">12</td></tr>
+          </tbody>
+        </table></div>
+        <span class="note">Escalões e regras são a proposta da revisão comercial, ainda por decidir (R4-D01, R4-D02). Não publicar sem aprovação.</span>
+      </div>
+      <div class="panel">
+        <div class="eyebrow">Programas Customizados</div>
+        <h2>Turmas fechadas, desenhadas consigo</h2>
+        <p>Para grupos de mais de seis pessoas da mesma empresa, ou para temas que não estão no calendário aberto.</p>
+        <ul>
+          <li>Venda técnica, marketing técnico e exportação</li>
+          <li>Segurança operacional e passagem do saber dos mais experientes</li>
+          <li>Qualquer curso dos oito trilhos, em data e local à sua medida</li>
+        </ul>
+        <form class="form" id="contact" novalidate>
+          <div class="field"><label for="e-empresa">Empresa</label><input id="e-empresa" required autocomplete="organization"></div>
+          <div class="field"><label for="e-nome">Nome</label><input id="e-nome" required autocomplete="name"></div>
+          <div class="field"><label for="e-email">Email</label><input id="e-email" type="email" required autocomplete="email"></div>
+          <div class="field"><label for="e-int">Interesse</label><select id="e-int"><option>Empresa-Âncora</option><option>Programa Customizado</option><option>Inscrever uma equipa</option></select></div>
+          <div class="field full"><label for="e-msg">O que precisa</label><textarea id="e-msg" rows="3" placeholder="Número de pessoas, funções, temas"></textarea></div>
+          <div class="full"><button class="btn btn-primary" type="submit">Pedir contacto</button></div>
+          <p class="ok-msg full" id="contact-ok" hidden>Pedido registado. A equipa da Academia responde em dois dias úteis.</p>
+        </form>
+        <span class="note">Prazo de resposta ilustrativo. Protótipo: nada é enviado.</span>
+      </div>
+    </div>
+  </section>`;
+}
+
+function vArea(){
+  const pick=(code,y,w)=>EDS.find(e=>e.c.code===code&&e.y===y&&e.w===w);
+  const res=[
+    {e:pick("B2-N1",2027,9),  l:4, n:3},
+    {e:pick("C2-N1",2027,12), l:2, n:2},
+    {e:pick("B3-N1",2027,18), l:3, n:0},
+    {e:pick("B2-N2",2027,45), l:2, n:0},
+    {e:pick("D1-N1",2027,47), l:4, n:2, exec:true}
+  ];
+  const tot27=15, usados=res.reduce((a,r)=>a+r.l,0), nom=res.reduce((a,r)=>a+r.n,0);
+  const prox=res.filter(r=>r.n<r.l).sort((a,b)=>a.e.nom-b.e.nom)[0];
+  const falta=prox.l-prox.n;
+  return `
+  <div class="wrap">
+    <div class="app-head">
+      <div><div class="eyebrow">Área Empresa · dados de exemplo</div><h1>Empresa Exemplo, S.A.</h1><p class="ed-meta" style="margin-top:6px">Empresa-Âncora · escalão Base · bolsa 2027–2028</p></div>
+      <a class="btn btn-primary" href="#cursos">Reservar lugares</a>
+    </div>
+    <div class="kpis">
+      <div class="kpi">
+        <span class="k">Bolsa 2027</span>
+        <span class="v">${usados} <span style="font-size:1rem;color:var(--muted);font-weight:500">de ${tot27} vagas reservadas</span></span>
+        <div class="meter" role="img" aria-label="${nom} com nome, ${usados-nom} sem nome, ${tot27-usados} livres"><i class="m1" style="width:${nom/tot27*100}%"></i><i class="m2" style="width:${(usados-nom)/tot27*100}%"></i></div>
+        <div class="meter-leg"><span><i style="background:var(--brand)"></i>${nom} com nome</span><span><i style="background:var(--brand-soft);outline:1px solid var(--brand)"></i>${usados-nom} por nomear</span><span><i style="background:var(--line)"></i>${tot27-usados} livres</span></div>
+      </div>
+      <div class="kpi"><span class="k">Bolsa 2028</span><span class="v">25</span><span class="s">vagas por reservar. Calendário de 2028 já disponível.</span></div>
+      <div class="kpi"><span class="k">Colaboradores</span><span class="v">${nom}</span><span class="s">com lugar atribuído em 2027</span></div>
+    </div>
+    <div class="alert">${falta>1?"Faltam":"Falta"} ${falta} nome${falta>1?"s":""} para ${cuCode(prox.e.c.code)} de ${fd(prox.e.start)}. Prazo para nomear: ${fd(prox.e.nom)}.</div>
+
+    <div class="app-sec">
+      <h2>Reservas</h2>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Edição</th><th>Data</th><th class="n">Vagas</th><th class="n">Com nome</th><th>Nomear até</th><th>Estado</th></tr></thead>
+        <tbody>${res.map(r=>`<tr>
+          <td><span class="code">${cuCode(r.e.c.code)}</span> <a href="#curso-${r.e.c.code}" style="text-decoration:none;font-weight:500">${r.e.c.titulo}</a></td>
+          <td class="mono" style="white-space:nowrap">${fr(r.e.start)}</td>
+          <td class="n">${r.l}${r.exec?`<br><small style="color:var(--muted)">2 participantes</small>`:""}</td>
+          <td class="n">${r.exec?r.n/2:r.n}${r.exec?`<small style="color:var(--muted)"> part.</small>`:""}</td>
+          <td class="mono" style="white-space:nowrap">${fd(r.e.nom)}</td>
+          <td>${r.n>=r.l?`<span class="pill ok">Completa</span>`:`<span class="pill w">Por nomear</span>`}</td>
+        </tr>`).join("")}</tbody>
+      </table></div>
+      <p class="rule-line">Lugares sem nome são libertados seis semanas antes do início, sem perder o crédito. Uma edição cancelada não consome vagas. Máximo de 6 lugares por edição.</p>
+      <span class="note block" style="margin-top:8px">Regras de uso propostas (R4-D02), por aprovar. No executivo, cada participante ocupa 2 vagas.</span>
+    </div>
+
+    <div class="app-sec" style="padding-bottom:72px">
+      <h2>Percursos</h2>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Colaborador</th><th>Área</th><th>Percurso previsto</th></tr></thead>
+        <tbody>
+          <tr><td>Colaborador A</td><td>Produção</td><td><span class="path"><span class="code">B2-N1</span><span class="mono">mar 2027</span><span class="arr">→</span><span class="code">B2-N2</span><span class="mono">nov 2027</span></span></td></tr>
+          <tr><td>Colaborador B</td><td>Qualidade</td><td><span class="path"><span class="code">C2-N1</span><span class="mono">mar 2027</span><span class="arr">→</span><span class="code">C2-N2</span><span class="mono">mai 2028</span></span></td></tr>
+          <tr><td>Colaborador C</td><td>Chefia de turno</td><td><span class="path"><span class="code">D1-N1</span><span class="mono">nov 2027</span><span class="arr">→</span><span class="code">D1-N2</span><span class="mono">jun 2028</span></span></td></tr>
+        </tbody>
+      </table></div>
+      <span class="note block" style="margin-top:8px">Área do formando (percurso, avaliações, certificados) por desenhar. Esta vista é só a da empresa.</span>
+    </div>
+  </div>`;
+}
+
+function vBiblioteca(){
+  return `<section class="page-head"><div class="wrap">
+    <div class="eyebrow">Biblioteca Digital</div>
+    <h1>Formação de base ao seu ritmo</h1>
+    <p class="lead">Conteúdos online para todos os trabalhadores do setor, incluindo segurança operacional.</p>
+    <span class="note block" style="margin-top:16px">Página por desenhar. Falta definir o conteúdo, o acesso (aberto, por empresa ou por formando) e a plataforma.</span>
+    <p style="margin-top:24px"><a class="btn btn-ghost" href="#inicio">Voltar ao início</a></p>
+  </div></section>`;
+}
+function vNotFound(){return `<section class="page-head"><div class="wrap"><h1>Página não encontrada</h1><p class="lead">O endereço não corresponde a nenhuma página da Academia.</p><p style="margin-top:20px"><a class="btn btn-primary" href="#inicio">Ir para o início</a></p></div></section>`}
+
+/* ---------- Router ---------- */
+const app=document.getElementById("app");
+function route(){
+  const h=(location.hash||"#inicio").slice(1);
+  let html, nav=h, scrollTo=null;
+  if(h==="inicio"||h==="") {html=vHome();nav="inicio"}
+  else if(h==="trilhos"||h.startsWith("trilho-")) {html=vHome();scrollTo=h==="trilhos"?"sec-trilhos":h;nav="trilhos"}
+  else if(h==="cursos") html=vCursos();
+  else if(h.startsWith("cursos-")) {F.tr=h.slice(7);html=vCursos();nav="cursos"}
+  else if(h.startsWith("curso-")) {html=vCurso(h.slice(6));nav="cursos"}
+  else if(h==="empresas") html=vEmpresas();
+  else if(h==="area") html=vArea();
+  else if(h==="biblioteca") html=vBiblioteca();
+  else html=vNotFound();
+  app.innerHTML=html;
+  document.querySelectorAll(".nav a").forEach(a=>{if(a.dataset.r===nav)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  document.getElementById("nav").classList.remove("open");
+  document.getElementById("menu-btn").setAttribute("aria-expanded","false");
+  bind();
+  if(scrollTo){const el=document.getElementById(scrollTo);if(el){el.scrollIntoView({block:"start"});return}}
+  window.scrollTo(0,0);
+}
+function bind(){
+  const fin=document.getElementById("finder");
+  if(fin) fin.addEventListener("submit",ev=>{ev.preventDefault();F.q=document.getElementById("h-q").value;F.tr=document.getElementById("h-tr").value;F.nv=document.getElementById("h-nv").value;F.esp="";F.sem="";location.hash="cursos"});
+  if(document.getElementById("results")){
+    const map={"c-q":"q","c-tr":"tr","c-nv":"nv","c-esp":"esp","c-sem":"sem"};
+    for(const [id,k] of Object.entries(map)){document.getElementById(id).addEventListener("input",ev=>{F[k]=ev.target.value;renderResults()})}
+    document.getElementById("c-cond").addEventListener("change",ev=>{F.cond=ev.target.checked;renderResults()});
+    renderResults();
+  }
+  const ct=document.getElementById("contact");
+  if(ct) ct.addEventListener("submit",ev=>{ev.preventDefault();if(!ct.reportValidity())return;document.getElementById("contact-ok").hidden=false});
+}
+
+/* ---------- Inscrição ---------- */
+const dlg=document.getElementById("dlg");
+let dlgCond=false;
+document.addEventListener("click",ev=>{
+  const b=ev.target.closest("[data-ins]"); if(!b) return;
+  const [code,y,w]=b.dataset.ins.split("|");
+  const e=EDS.find(x=>x.c.code===code&&x.y===+y&&x.w===+w);
+  dlgCond=e.cond;
+  document.getElementById("dlg-eyebrow").textContent=cuCode(code)+" · "+lvLabel(e.c.nivel);
+  document.getElementById("dlg-title").textContent=e.cond?"Manifestar interesse":"Inscrição";
+  document.getElementById("dlg-sub").textContent=`${e.c.titulo} · ${fr(e.start)} · ${ESPACOS[e.c.esp].nome}`;
+  document.getElementById("f-exp-wrap").hidden=e.c.nivel!==2;
+  document.getElementById("dlg-fields").hidden=false;
+  document.getElementById("dlg-ok").hidden=true;
+  document.getElementById("dlg-submit").hidden=false;
+  document.getElementById("dlg-cancel").textContent="Cancelar";
+  document.getElementById("dlg-form").reset();
+  if(typeof dlg.showModal==="function") dlg.showModal(); else dlg.setAttribute("open","");
+});
+document.getElementById("dlg-form").addEventListener("submit",ev=>{
+  ev.preventDefault();
+  const f=ev.target; if(!f.reportValidity()) return;
+  document.getElementById("dlg-fields").hidden=true;
+  const ok=document.getElementById("dlg-ok");
+  ok.textContent=dlgCond?"Interesse registado. Avisamos por email se a edição abrir.":"Pedido de inscrição registado. Recebe a confirmação por email depois da decisão de abertura.";
+  ok.hidden=false;
+  document.getElementById("dlg-submit").hidden=true;
+  document.getElementById("dlg-cancel").textContent="Fechar";
+});
+const closeDlg=()=>{if(dlg.open)dlg.close();else dlg.removeAttribute("open")};
+document.getElementById("dlg-x").addEventListener("click",closeDlg);
+document.getElementById("dlg-cancel").addEventListener("click",closeDlg);
+
+/* ---------- Menu e notas ---------- */
+document.getElementById("menu-btn").addEventListener("click",ev=>{const n=document.getElementById("nav");const o=n.classList.toggle("open");ev.currentTarget.setAttribute("aria-expanded",String(o))});
+const nb=document.getElementById("notes-btn");
+function setNotes(on){document.documentElement.classList.toggle("notes",on);nb.setAttribute("aria-pressed",String(on));nb.textContent=on?"Esconder notas de desenho":"Ver notas de desenho";try{localStorage.setItem("ac-notes",on?"1":"0")}catch(_){}}
+nb.addEventListener("click",()=>setNotes(!document.documentElement.classList.contains("notes")));
+try{if(localStorage.getItem("ac-notes")==="1")setNotes(true)}catch(_){}
+
+window.addEventListener("hashchange",route);
+route();
+})();
+</script>
+</body>
+</html>
