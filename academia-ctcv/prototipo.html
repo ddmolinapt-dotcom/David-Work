@@ -467,14 +467,14 @@ const TRILHOS = [
   {id:"B3", bl:"B", nome:"IA, Robótica & Inovação", novo:true, ds:"Inteligência artificial, robótica colaborativa e visão artificial aplicadas ao processo. Literacia e aplicação, sem programação."},
   {id:"C1", bl:"C", nome:"Sustentabilidade & Energia", ds:"Literacia ambiental e energética, eficiência energética e economia circular na operação."},
   {id:"C2", bl:"C", nome:"Qualidade & Certificação", ds:"Qualidade, metrologia e ensaios, nos laboratórios acreditados do CTCV."},
-  {id:"D1", bl:"D", nome:"Liderança de Equipas Industriais", ds:"Liderança e comunicação com equipas de produção, em formato executivo com a NOVA SBE."},
+  {id:"D1", bl:"D", nome:"Liderança de Equipas Industriais", ds:"Liderança e comunicação com equipas de produção, em formato executivo, em regime residencial."},
   {id:"D23", bl:"D", nome:"Pessoas, Segurança & Cultura Preventiva", ds:"Gestão de pessoas, segurança operacional e cultura preventiva. Começa no nível 2."}
 ];
 const ESPACOS = {
   sala:{nome:"Sala", formato:"Standard", dias:"2 dias presenciais", abre:"11 inscritos", lot:"25 lugares"},
   labs:{nome:"Laboratórios acreditados do CTCV", formato:"Laboratório", dias:"3 dias presenciais", abre:"14 inscritos", lot:"25 lugares"},
   factory:{nome:"Factory Lab", formato:"Laboratório intensivo", dias:"3 dias presenciais", abre:"14 inscritos", lot:"25 lugares"},
-  exec:{nome:"Executiva · NOVA SBE", formato:"Executivo residencial", dias:"Residencial", abre:"6 participantes", lot:"20 participantes"}
+  exec:{nome:"Executiva", formato:"Executivo residencial", dias:"Residencial", abre:"6 participantes", lot:"20 participantes"}
 };
 /* [código, trilho, nível, título, espaço, edições [ano, semana ISO, condicional?]] */
 const CURSOS = [
@@ -664,7 +664,7 @@ function vHome(){
         <div class="space"><span class="when">Desde março de 2027</span><h3>Sala</h3><p>Formato Standard, com 2 dias presenciais. Em B3, com demonstrações de IA e robótica.</p><div class="tags"><span class="chip">A1</span><span class="chip">B2</span><span class="chip">B3</span><span class="chip">C1</span><span class="chip">D2/D3</span></div></div>
         <div class="space"><span class="when">Desde março de 2027</span><h3>Laboratórios acreditados do CTCV</h3><p>Qualidade, metrologia e ensaios onde o setor certifica os seus produtos.</p><div class="tags"><span class="chip">C2</span></div></div>
         <div class="space"><span class="when">A partir de setembro de 2027</span><h3>Factory Lab</h3><p>Laboratório intensivo, 3 dias presenciais: dados, sensores, cobots e visão artificial.</p><div class="tags"><span class="chip">B1</span><span class="chip">B3-N2</span></div></div>
-        <div class="space"><span class="when">A partir de novembro de 2027</span><h3>Executivo com a NOVA SBE</h3><p>Formato residencial para chefias e direções de produção.</p><div class="tags"><span class="chip">D1</span></div></div>
+        <div class="space"><span class="when">A partir de novembro de 2027</span><h3>Formato executivo</h3><p>Formato residencial para chefias e direções de produção.</p><div class="tags"><span class="chip">D1</span></div></div>
       </div>
       <div class="week">
         <h3>Uma semana de formação</h3>
@@ -783,7 +783,7 @@ function vCurso(code){
   const quem = c.nivel===1
     ? `Para quem trabalha na indústria e quer as bases deste tema. Não exige formação anterior.`
     : `Para quem concluiu ${down?`o <a href="#curso-${down.code}">${cuCode(down.code)}</a>`:"o nível anterior"} ou tem mais de 10 anos no setor ou mais de 3 na empresa. Neste caso, a entrada direta é validada pela Academia.`;
-  const extra = c.code==="B3-N1" ? " Em sala, com demonstrações de robótica e visão artificial." : c.esp==="exec" ? " Em parceria com a NOVA SBE." : c.esp==="labs" ? " Nos laboratórios acreditados do CTCV." : c.esp==="factory" ? " No Factory Lab do CTCV." : "";
+  const extra = c.code==="B3-N1" ? " Em sala, com demonstrações de robótica e visão artificial." : c.esp==="exec" ? " Em formato executivo, em regime residencial." : c.esp==="labs" ? " Nos laboratórios acreditados do CTCV." : c.esp==="factory" ? " No Factory Lab do CTCV." : "";
   const preco = c.esp==="exec" ? "€450 por vaga · 2 vagas por participante" : "€450 por participante";
   return `
   <div class="wrap crumb"><a href="#cursos">Cursos e calendário</a> / <a href="#trilho-${t.id}">${trCode(t.id)} · ${t.nome}</a></div>
